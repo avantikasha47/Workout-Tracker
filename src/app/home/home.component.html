@@ -1,0 +1,62 @@
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Workout Tracker</h1>
+  
+    <form [formGroup]="form" (ngSubmit)="addUser()">
+      <div class="mb-4">
+        <label for="userName" class="block text-sm font-medium text-gray-700">User Name</label>
+        <input id="userName" formControlName="userName" type="text" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div class="mb-4">
+        <label for="workoutType" class="block text-sm font-medium text-gray-700">Workout Type</label>
+        <select id="workoutType" formControlName="workoutType" class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+          <option *ngFor="let type of workoutTypes" [value]="type">{{ type }}</option>
+          <option value="">All</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="workoutMinutes" class="block text-sm font-medium text-gray-700">Workout Minutes</label>
+        <input id="workoutMinutes" type="range" min="0" max="120" step="1" [value]="workoutMinutesValue" (input)="onMinutesInput($event)" class="mt-1 w-full" />
+        <input id="workoutMinutesDisplay" [value]="workoutMinutesValue" readonly class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Add</button>
+    </form>
+  
+    <div class="mt-6">
+      <div class="mb-4 flex items-center space-x-4">
+        <input type="text" [formControl]="searchControl" placeholder="Search by User Name" class="p-2 border border-gray-300 rounded-md" />
+        <select [formControl]="filterControl" class="p-2 border border-gray-300 rounded-md">
+          <option value="">Filter by Workout Type</option>
+          <option value="all">All</option>
+          <option *ngFor="let type of workoutTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+  
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-2 border-b text-left">User Name</th>
+            <th class="px-4 py-2 border-b text-left">Workout Types</th>
+            <th class="px-4 py-2 border-b text-left">Workout Minutes</th>
+            <th class="px-4 py-2 border-b text-left">Number of Workouts</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let user of paginatedUsers">
+            <td class="px-4 py-2 border-b">{{ user.name }}</td>
+            <td class="px-4 py-2 border-b">
+              {{ getWorkoutTypes(user.workoutTypes).join(', ') }}
+            </td>
+            <td class="px-4 py-2 border-b">{{ user.workoutMinutes }}</td>
+            <td class="px-4 py-2 border-b">{{ user.numberOfWorkouts }}</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <div class="mt-4 flex justify-center space-x-2">
+        <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" class="px-4 py-2 bg-blue-500 text-white rounded-md">Previous</button>
+        <span class="px-4 py-2">{{ currentPage }} / {{ totalPages }}</span>
+        <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" class="px-4 py-2 bg-blue-500 text-white rounded-md">Next</button>
+      </div>
+    </div>
+  </div>
+  
