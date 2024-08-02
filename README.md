@@ -68,10 +68,14 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
    
    ![HOME](https://github.com/avantikasha47/Workout-Tracker/blob/main/Screenshot%202024-08-02%20235252.png)
+
+
    ![HOME](https://github.com/avantikasha47/Workout-Tracker/blob/main/Screenshot%202024-08-02%20235607.png)
 
 ### 3. **Data Visualization:**
    By clicking the "Visualize" button, users can see a chart representation of the workout data for any selected user.
+
+   
    ![Data Visualization](https://github.com/avantikasha47/Workout-Tracker/blob/main/Screenshot%202024-08-03%20000003.png)
 
 ## Additional Resources
