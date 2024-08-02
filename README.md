@@ -13,10 +13,9 @@ The Workout-Tracker is a health challenge tracker application developed using An
 3. [Code Scaffolding](#code-scaffolding)
 4. [Build](#build)
 5. [Running Unit Tests](#running-unit-tests)
-6. [Running End-to-End Tests](#running-end-to-end-tests)
-7. [Features](#features)
-8. [Functionality](#functionality)
-9. [Additional Resources](#additional-resources)
+6. [Features](#features)
+7. [Functionality](#functionality)
+8. [Additional Resources](#additional-resources)
 
 ## Setup
 This project was generated with Angular CLI version 17.3.8.
@@ -49,9 +48,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Running Unit Tests
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running End-to-End Tests
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
 ## Features
 - User form to input workout data
 - Display workout data in a table grid
@@ -82,18 +78,3 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## About
 This project demonstrates best practices in Angular development, including clean coding principles, effective folder structure, and thorough testing. It is designed to help users track their workouts and visualize their progress in a user-friendly manner.
 
-## Further Help
-To get more help on the Angular CLI, use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
-
-## Submission
-Please fill out [this form](https://forms.gle/ucKCSdcrRh8ApyPX9) with the details of the public link of the repository containing the application and test cases, the deployed application, and your resume. 
-
----
-
-Feel free to replace the placeholders with actual links and screenshots. This README provides a clear structure and covers all essential aspects of your project.
-Packages: No packages published
-Languages
-TypeScript: 54.2%
-HTML: 44.1%
-JavaScript: 1.1%
-CSS: 0.6%
