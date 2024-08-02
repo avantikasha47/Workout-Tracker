@@ -1,29 +1,37 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { CommonModule } from '@angular/common'; // Import CommonModule for *ngFor
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { WorkoutChartComponent } from '../workout-chart/workout-chart.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule], // Import CommonModule here
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, WorkoutChartComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   form: FormGroup;
   searchControl: FormControl = new FormControl('');
   filterControl: FormControl = new FormControl('');
   users: { [key: string]: { name: string; workoutTypes: { [type: string]: number }; workoutMinutes: number; numberOfWorkouts: number } } = {};
   workoutMinutesValue: number = 0;
-  workoutTypes: string[] = ['Cardio', 'Strength', 'Flexibility', 'Balance', 'Endurance'];
+  workoutTypes: string[] = ['Cardio', 'Yoga', 'Flexibility', 'Strength-training', 'Swimming','Cycling','Endurance'];
 
-  // Pagination variables
   currentPage: number = 1;
   itemsPerPage: number = 3;
 
+  selectedUser: string = '';
+  chartData: any = {};
+  chartType: 'bar' | 'line' | 'pie' = 'bar';
+  isChartVisible: boolean = false;
+  isFormVisible: boolean = true;
+  isListVisible: boolean = true;
+
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      userName: [''],
+      userName: ['', [Validators.required, this.alphabeticValidator]],
       workoutType: [''],
       workoutMinutes: [0]
     });
@@ -34,9 +42,12 @@ export class HomeComponent {
     this.filterControl.valueChanges.subscribe(() => this.filteredUsers());
   }
 
+  ngOnInit(): void {
+    // Initialize chartData if needed
+  }
+
   addUser() {
     const newUser = this.form.value;
-    console.log('Form Data:', newUser);
     if (this.form.valid) {
       const name = newUser.userName || '';
       const workoutType = newUser.workoutType || '';
@@ -51,28 +62,21 @@ export class HomeComponent {
         };
       }
 
-      // Update or add workout type
       if (workoutType) {
         if (this.users[name].workoutTypes[workoutType] !== undefined) {
-          // If workout type already exists, just update the minutes
           this.users[name].workoutTypes[workoutType] += workoutMinutes;
         } else {
-          // If workout type does not exist, add it
           this.users[name].workoutTypes[workoutType] = workoutMinutes;
         }
       }
 
-      // Calculate the total workout minutes
       this.users[name].workoutMinutes = Object.values(this.users[name].workoutTypes).reduce((a, b) => a + b, 0);
-
-      // Number of distinct workout types
       this.users[name].numberOfWorkouts = Object.keys(this.users[name].workoutTypes).length;
 
-      console.log('Users:', this.users);
       this.form.reset();
       this.workoutMinutesValue = 0;
-    } else {
-      console.log('Form is invalid');
+
+      this.updateChartData();
     }
   }
 
@@ -102,7 +106,6 @@ export class HomeComponent {
     return Object.keys(workoutTypes);
   }
 
-  // Pagination methods
   get paginatedUsers() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
@@ -118,4 +121,53 @@ export class HomeComponent {
       this.currentPage = page;
     }
   }
+
+  updateChartData() {
+    const selectedUser = this.users[this.selectedUser];
+    if (selectedUser) {
+      const labels = Object.keys(selectedUser.workoutTypes);
+      const data = Object.values(selectedUser.workoutTypes);
+      this.chartData = {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Workout Minutes',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }
+        ]
+      };
+    } else {
+      this.chartData = {
+        labels: [],
+        datasets: []
+      };
+    }
+  }
+
+  alphabeticValidator(control: FormControl) {
+    const value = control.value || '';
+    const isValid = /^[a-zA-Z\s]+$/.test(value);
+    return isValid ? null : { alphabetic: true };
+  }
+  toggleChart() {
+    // Toggle chart visibility
+    this.isChartVisible = !this.isChartVisible;
+
+    // Update visibility of form and list based on the new state of the chart
+    if (this.isChartVisible) {
+        // Hide form and list
+        this.isFormVisible = false;
+        this.isListVisible = false;
+    } else {
+        // Show form and list
+        this.isFormVisible = true;
+        this.isListVisible = true;
+    }
+}
+
+
+
 }

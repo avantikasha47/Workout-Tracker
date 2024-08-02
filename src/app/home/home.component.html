@@ -1,62 +1,134 @@
-<div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Workout Tracker</h1>
-  
-    <form [formGroup]="form" (ngSubmit)="addUser()">
-      <div class="mb-4">
-        <label for="userName" class="block text-sm font-medium text-gray-700">User Name</label>
-        <input id="userName" formControlName="userName" type="text" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WORKOUT-APP</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .section-bg {
+      background-color: #2b6cb0; /* Adjust to a different blue color */
+    }
+    .bulged-text {
+      text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body >
+  <div class="bg-opacity-50 h-full">
+    <!-- Navigation Bar -->
+    <nav class="bg-black text-white py-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="text-3xl font-bold">Workout Tracker</div>
+        <button (click)="toggleChart()" class="bg-gray-800 px-4 py-4 m-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">Visualize</button>
       </div>
-      <div class="mb-4">
-        <label for="workoutType" class="block text-sm font-medium text-gray-700">Workout Type</label>
-        <select id="workoutType" formControlName="workoutType" class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
-          <option *ngFor="let type of workoutTypes" [value]="type">{{ type }}</option>
-          <option value="">All</option>
+    </nav>
+
+       <!-- Tagline -->
+<div class="mt-6 flex justify-center">
+  <p class="text-4xl font-semibold text-white italic">"Your health is your wealth - Track it, improve it, and cherish it!"</p>
+</div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-7 max-w-7xl">
+      <div class="flex flex-col md:flex-row md:space-x-4">
+        <!-- Form for adding users with glass effect -->
+        <form [formGroup]="form" (ngSubmit)="addUser()" class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg p-6 shadow-lg border border-gray-200 md:w-2/5">
+          <div class="mb-6">
+            <label for="userName" class="block text-sm font-semibold text-white mb-2">User Name</label>
+            <input id="userName" formControlName="userName" type="text" class="w-full p-3 bg-white bg-opacity-30 border border-gray-300 rounded-md text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <div *ngIf="form.get('userName')?.invalid && (form.get('userName')?.dirty || form.get('userName')?.touched)" class="text-white text-sm mt-2">
+              <div *ngIf="form.get('userName')?.errors?.['required']">User Name is required.</div>
+              <div *ngIf="form.get('userName')?.errors?.['alphabetic']">User Name must only contain alphabets.</div>
+            </div>
+          </div>
+          <div class="mb-6">
+            <label for="workoutType" class="block text-sm font-semibold text-white mb-2">Workout Type</label>
+            <select id="workoutType" formControlName="workoutType" class="w-full p-3 border  bg-slate-500 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-blue-950">
+              <option *ngFor="let type of workoutTypes" [value]="type" class="text-black">{{ type }}</option>
+              <option value="" class="text-black">All</option>
+            </select>
+          </div>
+          <div class="mb-6">
+            <label for="workoutMinutes" class="block text-sm font-semibold text-white mb-2">Workout Minutes</label>
+            <input id="workoutMinutes" type="range" min="0" max="120" step="1" [value]="workoutMinutesValue" (input)="onMinutesInput($event)" class="w-full h-2 bg-gray-200 rounded-lg cursor-pointer" />
+            <input id="workoutMinutesDisplay" [value]="workoutMinutesValue" readonly class="mt-2 w-full p-3 bg-white bg-opacity-30 border border-gray-300 rounded-md text-white text-center" />
+          </div>
+          <button type="submit" class="w-full px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">Add</button>
+        </form>
+
+        <!-- Search and filter with glass effect -->
+        <div class="mt-8 bg-black bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg p-6 shadow-lg border border-gray-200 md:w-3/5 md:mt-0">
+          <div class="mb-6 flex flex-col md:flex-row md:items-center md:space-x-4">
+            <input type="text" [formControl]="searchControl" placeholder="Search by User Name" class="w-full md:w-1/2 p-3 bg-white bg-opacity-30 border border-gray-300 rounded-md text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <select [formControl]="filterControl" class="mt-4 md:mt-0 md:w-full p-3 bg-slate-500 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="" class="text-black">Filter by Workout Type</option>
+              <option value="all" class="text-black">All</option>
+              <option *ngFor="let type of workoutTypes" [value]="type" class="text-black">{{ type }}</option>
+            </select>
+          </div>
+
+          <!-- User table with glass effect -->
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg overflow-hidden shadow-lg">
+              <thead class="bg-gray-50 bg-opacity-30 backdrop-filter backdrop-blur-lg">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">User Name</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Workout Types</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Workout Minutes</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Number of Workouts</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg divide-y divide-gray-200">
+                <tr *ngFor="let user of paginatedUsers">
+                  <td class="px-6 py-4 text-sm text-white">{{ user.name }}</td>
+                  <td class="px-6 py-4 text-sm text-white">{{ getWorkoutTypes(user.workoutTypes).join(', ') }}</td>
+                  <td class="px-6 py-4 text-sm text-white">{{ user.workoutMinutes }}</td>
+                  <td class="px-6 py-4 text-sm text-white">{{ user.numberOfWorkouts }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="mt-6 flex justify-center space-x-2">
+            <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0" class="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 disabled:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">Previous</button>
+            <span class="px-4 py-2 text-sm font-medium text-white">{{ currentPage }} / {{ totalPages }}</span>
+            <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" class="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 disabled:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">Next</button>
+          </div>
+        </div>
+      </div>
+
+   
+
+      <!-- User selection and chart component with updated blue background -->
+      <div *ngIf="isChartVisible" class="mt-8 bg-gray-400 bg-opacity-50 backdrop-filter backdrop-blur-lg text-white p-6 rounded-lg shadow-lg border border-gray-700">
+        <label for="userSelector" class="block text-2xl font-semibold mb-2">
+          Select a User to View Workout Data
+        </label>
+        <select id="userSelector" [(ngModel)]="selectedUser" (change)="updateChartData()" class="w-full p-3 my-5 bg-blue-800 bg-opacity-30 border border-gray-300 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out hover:bg-blue-700 hover:bg-opacity-40">
+          <option value="" disabled class="text-black">Select a user</option>
+          <option *ngFor="let user of filteredUsers()" [value]="user.name" class="text-black">{{ user.name }}</option>
         </select>
-      </div>
-      <div class="mb-4">
-        <label for="workoutMinutes" class="block text-sm font-medium text-gray-700">Workout Minutes</label>
-        <input id="workoutMinutes" type="range" min="0" max="120" step="1" [value]="workoutMinutesValue" (input)="onMinutesInput($event)" class="mt-1 w-full" />
-        <input id="workoutMinutesDisplay" [value]="workoutMinutesValue" readonly class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
-      </div>
-      <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Add</button>
-    </form>
-  
-    <div class="mt-6">
-      <div class="mb-4 flex items-center space-x-4">
-        <input type="text" [formControl]="searchControl" placeholder="Search by User Name" class="p-2 border border-gray-300 rounded-md" />
-        <select [formControl]="filterControl" class="p-2 border border-gray-300 rounded-md">
-          <option value="">Filter by Workout Type</option>
-          <option value="all">All</option>
-          <option *ngFor="let type of workoutTypes" [value]="type">{{ type }}</option>
-        </select>
-      </div>
-  
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th class="px-4 py-2 border-b text-left">User Name</th>
-            <th class="px-4 py-2 border-b text-left">Workout Types</th>
-            <th class="px-4 py-2 border-b text-left">Workout Minutes</th>
-            <th class="px-4 py-2 border-b text-left">Number of Workouts</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <tr *ngFor="let user of paginatedUsers">
-            <td class="px-4 py-2 border-b">{{ user.name }}</td>
-            <td class="px-4 py-2 border-b">
-              {{ getWorkoutTypes(user.workoutTypes).join(', ') }}
-            </td>
-            <td class="px-4 py-2 border-b">{{ user.workoutMinutes }}</td>
-            <td class="px-4 py-2 border-b">{{ user.numberOfWorkouts }}</td>
-          </tr>
-        </tbody>
-      </table>
-  
-      <div class="mt-4 flex justify-center space-x-2">
-        <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" class="px-4 py-2 bg-blue-500 text-white rounded-md">Previous</button>
-        <span class="px-4 py-2">{{ currentPage }} / {{ totalPages }}</span>
-        <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" class="px-4 py-2 bg-blue-500 text-white rounded-md">Next</button>
+        
+        <app-workout-chart [chartData]="chartData" [chartType]="chartType" class="mt-6"></app-workout-chart>
       </div>
     </div>
   </div>
-  
+
+  <script>
+    // Sample Angular code to handle the button click and toggle visibility
+    const app = angular.module('app', []);
+    app.controller('MainController', function($scope) {
+      $scope.isChartVisible = false;
+
+      $scope.toggleChart = function() {
+        $scope.isChartVisible = !$scope.isChartVisible;
+      };
+
+      // Other methods related to the form and chart
+    });
+  </script>
+</body>
+</html>
