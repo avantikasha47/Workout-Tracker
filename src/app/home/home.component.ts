@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   filterControl: FormControl = new FormControl('');
   users: { [key: string]: { name: string; workoutTypes: { [type: string]: number }; workoutMinutes: number; numberOfWorkouts: number } } = {};
   workoutMinutesValue: number = 0;
-  workoutTypes: string[] = ['Cardio', 'Yoga', 'Flexibility', 'Strength-training', 'Swimming','Cycling','Endurance'];
+  workoutTypes: string[] = ['Cardio', 'Strength', 'Flexibility', 'Balance', 'Endurance'];
 
   currentPage: number = 1;
   itemsPerPage: number = 3;
@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Initialize chartData if needed
+    this.loadUsers();
   }
 
   addUser() {
@@ -76,6 +76,15 @@ export class HomeComponent implements OnInit {
       this.form.reset();
       this.workoutMinutesValue = 0;
 
+      this.updateChartData();
+      this.saveUsers();
+    }
+  }
+
+  deleteUser(name: string) {
+    if (this.users[name]) {
+      delete this.users[name];
+      this.saveUsers();
       this.updateChartData();
     }
   }
@@ -152,22 +161,27 @@ export class HomeComponent implements OnInit {
     const isValid = /^[a-zA-Z\s]+$/.test(value);
     return isValid ? null : { alphabetic: true };
   }
+
   toggleChart() {
-    // Toggle chart visibility
     this.isChartVisible = !this.isChartVisible;
 
-    // Update visibility of form and list based on the new state of the chart
     if (this.isChartVisible) {
-        // Hide form and list
         this.isFormVisible = false;
         this.isListVisible = false;
     } else {
-        // Show form and list
         this.isFormVisible = true;
         this.isListVisible = true;
     }
-}
+  }
 
+  saveUsers() {
+    localStorage.setItem('users', JSON.stringify(this.users));
+  }
 
-
+  loadUsers() {
+    const storedUsers = localStorage.getItem('users');
+    if (storedUsers) {
+      this.users = JSON.parse(storedUsers);
+    }
+  }
 }

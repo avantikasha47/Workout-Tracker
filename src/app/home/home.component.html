@@ -86,6 +86,10 @@
                   <td class="px-6 py-4 text-sm text-white">{{ getWorkoutTypes(user.workoutTypes).join(', ') }}</td>
                   <td class="px-6 py-4 text-sm text-white">{{ user.workoutMinutes }}</td>
                   <td class="px-6 py-4 text-sm text-white">{{ user.numberOfWorkouts }}</td>
+                  <!-- New column for Actions -->
+                  <td class="px-6 py-4 text-sm text-white">
+                     <button (click)="deleteUser(user.name)" class="bg-slate-600 text-white px-4 py-2 rounded-md hover:bg-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500">Delete</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -99,8 +103,9 @@
           </div>
         </div>
       </div>
+       
 
-   
+      
 
       <!-- User selection and chart component with updated blue background -->
       <div *ngIf="isChartVisible" class="mt-8 bg-gray-400 bg-opacity-50 backdrop-filter backdrop-blur-lg text-white p-6 rounded-lg shadow-lg border border-gray-700">
