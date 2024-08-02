@@ -61,11 +61,13 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Functionality
 ### 1. **User Input Form:**
    Users can input their name, workout type, and workout minutes, then press the "Add" button to save the data.
-   ![User Input Form](path-to-your-screenshot)
+   
 
 ### 2. **Workout Data Table:**
    The entered workout data is displayed in a table grid format with options to search by username, filter by workout type, and delete entries.
-   ![Workout Data Table](path-to-your-screenshot)
+
+   
+   ![HOME](https://github.com/avantikasha47/Workout-Tracker/blob/main/Screenshot%202024-08-02%20235252.png)
 
 ### 3. **Data Visualization:**
    By clicking the "Visualize" button, users can see a chart representation of the workout data for any selected user.
