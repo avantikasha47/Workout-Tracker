@@ -71,10 +71,10 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ### 3. **Data Visualization:**
    By clicking the "Visualize" button, users can see a chart representation of the workout data for any selected user.
-   ![Data Visualization](path-to-your-screenshot)
+   ![Data Visualization]([path-to-your-screenshot](https://github.com/avantikasha47/Workout-Tracker/blob/main/Screenshot%202024-08-03%20000003.png))
 
 ## Additional Resources
-- **Deployed Application:** [Link to the deployed app](your-deployed-link)
+- **Deployed Application:** [Link to the deployed app](https://trackwell.netlify.app/)
 - **Video Introduction:** [Link to the video](your-video-link)
 
 ## About
