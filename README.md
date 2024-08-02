@@ -1,113 +1,96 @@
-Workout-Tracker
+Here is a comprehensive README for your Health Challenge Tracker project:
+
+---
+
+# Workout-Tracker
+
+## Overview
+The Workout-Tracker is a health challenge tracker application developed using Angular 14+. This single-page application (SPA) allows users to log their workouts, visualize their progress through charts, and manage their workout data with ease.
+
+## Table of Contents
+1. [Setup](#setup)
+2. [Development Server](#development-server)
+3. [Code Scaffolding](#code-scaffolding)
+4. [Build](#build)
+5. [Running Unit Tests](#running-unit-tests)
+6. [Running End-to-End Tests](#running-end-to-end-tests)
+7. [Features](#features)
+8. [Functionality](#functionality)
+9. [Additional Resources](#additional-resources)
+
+## Setup
 This project was generated with Angular CLI version 17.3.8.
 
-Project Description
-The Health Challenge Tracker is a single-page application (SPA) designed to help users log and monitor their workout activities. Built with Angular 14+, this application allows users to input their workout details, view a list of logged workouts, and utilize various features to manage and analyze their workout data.
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/avantikasha47/Workout-Tracker.git
+    cd Workout-Tracker
+    ```
 
-Features
-User Input:
-User Name
-Workout Type
-Workout Minutes
-Display Workout List:
-Search by user name
-Filter by workout type
-Pagination for easy navigation
-Optional Feature:
-Display workout progress using charts
-Development server
-Run ng serve for a dev server. Navigate to http://localhost:4200/. The application will automatically reload if you change any of the source files.
+2. **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-Code scaffolding
-Run ng generate component component-name to generate a new component. You can also use ng generate directive|pipe|service|class|guard|interface|enum|module.
+3. **Run the development server:**
+    ```bash
+    ng serve
+    ```
 
-Build
-Run ng build to build the project. The build artifacts will be stored in the dist/ directory.
+## Development Server
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-Running unit tests
-Run ng test to execute the unit tests via Karma.
+## Code Scaffolding
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-Running end-to-end tests
-Run ng e2e to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Build
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-Further help
-To get more help on the Angular CLI, use ng help or check out the Angular CLI Overview and Command Reference page.
+## Running Unit Tests
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-Sample Data Structure
-The application uses localStorage to store user data. Here is an example of the data structure:
+## Running End-to-End Tests
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-javascript
-Copy code
-userData = [
-    {
-      id: 1,
-      name: 'John Doe',
-      workouts: [
-        { type: 'Running', minutes: 30 },
-        { type: 'Cycling', minutes: 45 }
-      ]
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      workouts: [
-        { type: 'Swimming', minutes: 60 },
-        { type: 'Running', minutes: 20 }
-      ]
-    },
-    {
-      id: 3,
-      name: 'Mike Johnson',
-      workouts: [
-        { type: 'Yoga', minutes: 50 },
-        { type: 'Cycling', minutes: 40 }
-      ]
-    },
-];
-Screenshots
-Input Form
+## Features
+- User form to input workout data
+- Display workout data in a table grid
+- Search by username
+- Filter by workout type
+- Pagination for large datasets
+- Data storage using `localStorage`
+- Delete functionality for user data
+- Data visualization using charts
 
+## Functionality
+### 1. **User Input Form:**
+   Users can input their name, workout type, and workout minutes, then press the "Add" button to save the data.
+   ![User Input Form](path-to-your-screenshot)
 
-Workout List
+### 2. **Workout Data Table:**
+   The entered workout data is displayed in a table grid format with options to search by username, filter by workout type, and delete entries.
+   ![Workout Data Table](path-to-your-screenshot)
 
+### 3. **Data Visualization:**
+   By clicking the "Visualize" button, users can see a chart representation of the workout data for any selected user.
+   ![Data Visualization](path-to-your-screenshot)
 
-Workout Progress Chart (Optional)
+## Additional Resources
+- **Deployed Application:** [Link to the deployed app](your-deployed-link)
+- **Video Introduction:** [Link to the video](your-video-link)
 
+## About
+This project demonstrates best practices in Angular development, including clean coding principles, effective folder structure, and thorough testing. It is designed to help users track their workouts and visualize their progress in a user-friendly manner.
 
-References & Requirements
-Input fields to add the user, workout type, and minutes with a button
-Display users in a table grid
-Search by username and filter by workout type
-Use localStorage for data storage
-Initial data with 3 users by default
-Pagination for more than 5 users
-Unit tests for 1 component and 1 service with 100% code coverage
-Use libraries like Angular Material, PrimeNG
-Host the SPA on a cloud service (Heroku, Netlify, GitHub Pages, etc.)
-Bonus feature: Add charts to display user workout data
-Submission
-Submit your solution using the following form: Submission Form
+## Further Help
+To get more help on the Angular CLI, use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-Include:
+## Submission
+Please fill out [this form](https://forms.gle/ucKCSdcrRh8ApyPX9) with the details of the public link of the repository containing the application and test cases, the deployed application, and your resume. 
 
-Public link to the GitHub repository
-Link to the hosted web application
-Your resume
-Video Submission
-Record a video introducing yourself and discussing your experience with the assignment. Keep the video under 2 minutes and address the following points:
+---
 
-Personal introduction (name, education, hobbies, availability for a full-time internship for 6 months)
-Most challenging part of the assignment
-Any changes you would make to the assignment
-Upload the video to Google Drive and share the public access link. Verify the link is accessible.
-
-For any questions, contact: dimple.kh@fylehq.com
-
-Project Status
-Stars: 0 stars
-Watchers: 1 watching
-Forks: 0 forks
-Releases: No releases published
+Feel free to replace the placeholders with actual links and screenshots. This README provides a clear structure and covers all essential aspects of your project.
 Packages: No packages published
 Languages
 TypeScript: 54.2%
